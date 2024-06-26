@@ -9,8 +9,21 @@ Brief overview :
 * Build and develop business intelligence dashboard using Django 
 * **Technology used : Python, Django, PostgreSQL**
 
+## Design Data Warehouse Schema and Application Interface Implementation
+
 ### Design Data Warehouse Schema (Fact constellation schema)
 ![Fact constellation schema](https://github.com/paquitaputri/dashboard-superstore/assets/31913746/c15b3770-f726-4f86-b7f4-8595228c70b9)
 
 ### ETL Design
 ![ETL Schema](https://github.com/paquitaputri/dashboard-superstore/assets/31913746/af887fa0-d2f2-4a9b-8f6c-f76393f93695)
+
+### Home Page View
+
+![image13](https://github.com/paquitaputri/Data-Warehouse-for-Business-Intelligence-Dashboard-Using-PostgreSQL-Database/assets/31913746/77ff4387-33f3-428a-a6e3-2317d7817bcf)
+
+### Sales Dashboard Page
+![image14](https://github.com/paquitaputri/Data-Warehouse-for-Business-Intelligence-Dashboard-Using-PostgreSQL-Database/assets/31913746/2b56f441-9ca7-4eec-94be-78153eb502ef)
+
+### logistic Dashboard Page
+![image15](https://github.com/paquitaputri/Data-Warehouse-for-Business-Intelligence-Dashboard-Using-PostgreSQL-Database/assets/31913746/c5a06c0e-183a-4935-83d6-b7b18d50a7b1)
+
