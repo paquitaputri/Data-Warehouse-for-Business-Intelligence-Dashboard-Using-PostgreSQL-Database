@@ -18,8 +18,7 @@ Brief overview :
 ![ETL Schema](https://github.com/paquitaputri/dashboard-superstore/assets/31913746/af887fa0-d2f2-4a9b-8f6c-f76393f93695)
 
 ### Home Page View
-
-![image13](https://github.com/paquitaputri/Data-Warehouse-for-Business-Intelligence-Dashboard-Using-PostgreSQL-Database/assets/31913746/77ff4387-33f3-428a-a6e3-2317d7817bcf)
+![image13](https://github.com/paquitaputri/Data-Warehouse-for-Business-Intelligence-Dashboard-Using-PostgreSQL-Database/assets/31913746/a4888330-fa2c-4805-a539-334171846f9d)
 
 ### Sales Dashboard Page
 ![image14](https://github.com/paquitaputri/Data-Warehouse-for-Business-Intelligence-Dashboard-Using-PostgreSQL-Database/assets/31913746/2b56f441-9ca7-4eec-94be-78153eb502ef)
