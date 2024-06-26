@@ -1,0 +1,52 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block content %}
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <div class="header-content">
+        <h1 class="h3 mb-0 text-gray-800">Data Pengiriman</h1>
+    </div>
+</div>
+<table class="table table-bordered text-center">
+    <thead class="thead-dark" align="center">
+      <tr>
+        <th>No</th>
+        <th>Id Pesanan</th>
+        <th>Mode Pengiriman</th>
+        <th>Kota</th>
+        <th>Negara</th>
+        <th>Nama Pelanggan</th>
+        <th>Tanggal Pengiriman</th>
+        <th>Barang Diterima</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for isi in halaman %}
+        <tr>
+          <td>{{ isi.nomer | safe }}</td>
+          <td>{{ isi.pesanan.pesanan_id | safe }}</td>
+          <td>{{ isi.mode_pengiriman.nama_mode_pengiriman | safe }}</td>
+          <td>{{ isi.kota.kota_name | safe }}</td>
+          <td>{{ isi.kota.provinsi.negara.nama_negara | safe }}</td>
+          <td>{{ isi.pelanggan.nama_pelanggan | safe }}</td>
+          <td>{{ isi.tanggal.tanggal | safe }}</td>
+          <td>{{ isi.barang_diterima | safe }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+</table>
+
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+  {% if halaman.has_previous %}
+  <div class="header-content">
+    <a class="btn btn-secondary" href="{% url 'tabel_pengiriman' %}?page={{halaman.previous_page_number}}" role="button">Previous</a>
+  </div>
+  {% endif %}
+  {% if halaman.has_next%}
+  <div class="sub-header-content">
+    <a class="btn btn-secondary" href="{% url 'tabel_pengiriman' %}?page={{halaman.next_page_number}}" role="button">Next</a>
+  </div>
+  {% endif %}
+</div>
+
+
+  {% endblock content %}

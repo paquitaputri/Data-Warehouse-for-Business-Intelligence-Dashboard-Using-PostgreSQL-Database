@@ -1,0 +1,88 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Superstore - Dashboard</title>
+
+    {% include 'snippets/style.html' %}
+
+
+</head>
+
+
+<body id="page-top">
+
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+
+        {% include 'snippets/sidebar.html'%}
+
+
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+
+            <!-- Main Content -->
+            <div id="content">
+                {% include 'snippets/topbar.html' %}
+
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+                    {% block content %}
+
+                    <div class="card mb-4" style="width: 100%;">
+                        <div class="card-body">
+                          <h5 class="card-title text-dark font-weight-bold">Implementasi Data Warehouse Dalam Pembuatan Dashboard Business Intelligence Menggunakan PostgreSQL Database Dan Metode Kimball Lifecycle</h5>
+                          <h6 class="card-subtitle mb-2 text-muted">Paquita Putri Ramadhani / 140810160024</h6>
+                        </div>
+                    </div>
+
+                    <div class="card mb-4" style="width: 100%;">
+                        <div class="card-body">
+                          <h5 class="card-title text-dark font-weight-bold">Penjelasan Singkat </h5>
+                          <p class="card-text">Superstore Dashboard merupakan dashboard business intelligence berbasis web yang dirancang sebagai alat monitoring pada suatu perusahaan untuk memonitor performa penjualan, pembelian dan juga performa pengadaan barang. Di dalam dashboard ini terdapat beberapa menu utama untuk mencapai tujuan aplikasi sebagai sebagai alat monitoring ini terdapat beberapa fitur utama untuk mencapai tujuan dari aplikasi tersebut. </p>
+                        </div>
+                    </div>
+                    <div class="card" style="width: 100%;">
+                        <div class="card-body">
+                          <h5 class="card-title text-dark font-weight-bold">Video Dokumentasi Superstore Dashboard </h5>
+                          <p class="card-text">Video ini adalah dokumentasi penggunaan Superstore Dashboard  </p>
+                          <iframe width="560" height="315" src="https://www.youtube.com/embed/tsU2-ZlACk0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        </div>
+                    </div>
+
+
+                    {% endblock content %}
+
+                </div>
+                <!-- End of Main Content -->
+
+
+
+
+                {% include 'snippets/footer.html'%}
+
+
+            </div>
+            <!-- End of Content Wrapper -->
+
+        </div>
+        <!-- End of Page Wrapper -->
+
+        {% include 'snippets/scroll.html' %}
+
+        {% include 'snippets/logout.html' %}
+
+        {% include 'snippets/scripts.html' %}
+
+
+</body>
+
+</html>
