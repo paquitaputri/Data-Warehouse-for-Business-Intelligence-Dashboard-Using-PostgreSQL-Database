@@ -1,0 +1,805 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Superstore - Dashboard</title>
+
+    {% include 'snippets/style.html' %}
+
+
+</head>
+
+
+<body id="page-top">
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+
+        {% include 'snippets/sidebar.html'%}
+
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+
+            <!-- Main Content -->
+            <div id="content">
+                {% include 'snippets/topbar.html' %}
+
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+
+                    <!-- Page Heading -->
+                    {% block header %}
+                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                        <div class="header-content">
+                            <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
+                        </div>
+                        <div class="sub-header-content">
+                            <div class="dropdown show">
+                                <a class="btn btn-outline-dark my-2 my-sm-0" href="#" role="button"
+                                    id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
+                                    aria-expanded="false">
+                                    Urutkan Berdasarkan <i class="fas fa-caret-down"></i>
+                                </a>
+
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                    <a class="dropdown-item" href={% url 'yearly-sales' %}>Yearly</a>
+                                    <a class="dropdown-item" href={% url 'quarterly-sales' %}>Quarterly</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endblock header %}
+
+
+                    <!-- Content Row -->
+                    {% block content-row-1 %}
+                    <div class="row" id="chart">
+                        <!-- Earnings (Monthly) Card Example -->
+                        <div class="col-xl-4 col-md-6 mb-4">
+                            <div class="card border-left-primary shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2 mt-2">
+                                            {% block revenue %}
+                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-2">
+                                                Revenue</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">${{revenue}}</div>
+                                            {% endblock revenue %}
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                                        </div>
+                                        <div class="col-auto mt-2">
+                                            {% block value-revenue %}
+                                            
+                                            {% endblock value-revenue %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Earnings (Monthly) Card Example -->
+                        <div class="col-xl-4 col-md-6 mb-4">
+                            <div class="card border-left-success shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2 mt-2">
+                                            {% block profit %}
+                                            <div class="text-xs font-weight-bold text-success text-uppercase mb-2">
+                                                Profit</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">${{profit}}</div>
+                                            {% endblock profit %}
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                                        </div>
+                                        <div class="col-auto mt-2">
+                                            {% block value-profit %}
+                                            
+                                            {% endblock value-profit %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Pending Requests Card Example -->
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-left-warning shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2 mt-2">
+                                            {% block transaksi %}
+                                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-2">
+                                                Total Transaksi</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{count}}</div>
+                                            {% endblock transaksi %}
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-file-invoice-dollar fa-2x text-gray-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endblock content-row-1 %}
+                    {% block content-row-2 %}
+                    <div class="row">
+                        <div class="column2">
+                            <div class="card shadow mb-4">
+                                <!-- Card Header - Dropdown -->
+                                <div
+                                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                    <h6 class="m-0 font-weight-bold text-primary">Revenue for Each Region</h6>
+                                </div>
+                                <!-- Card Body -->
+                                <div class="card-body">
+                                    <div class="pie-area">
+                                        <canvas id="myPieChart1" height="100"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endblock content-row-2 %}
+                    {% block content-row-3 %}
+                    <div class="row">
+                        <div class="column2">
+                            <div class="card shadow mb-4">
+                                <!-- Card Header - Dropdown -->
+                                <div
+                                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                    <h6 class="m-0 font-weight-bold text-primary">Profit for Each Region</h6>
+                                </div>
+                                <!-- Card Body -->
+                                <div class="card-body">
+                                    <div class="pie-area">
+                                        <canvas id="myPieChart2" height="100"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endblock content-row-3 %}
+                    {% block header-2 %}
+
+                    {% endblock header-2 %}
+                    {% block content-row-4 %}
+                    <div class="row">
+                        <div class="column3">
+                            <div class="card shadow mb-4">
+                                <!-- Card Header - Dropdown -->
+                                <div
+                                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                    <h6 class="m-0 font-weight-bold text-primary">Revenue for Each Category</h6>
+                                </div>
+                                <!-- Card Body -->
+                                <div class="card-body">
+                                    <div class="chart-bar">
+                                        <canvas id="myBarChart1"></canvas>
+                                    </div>
+                                    <div class="mt-4 text-center small">
+                                        <span class="mr-2">
+                                            <i class="fas fa-circle text-primary"></i> {{label_category.0}}
+                                        </span>
+                                        <span class="mr-2">
+                                            <i class="fas fa-circle text-success"></i> {{label_category.1}}
+                                        </span>
+                                        <span class="mr-2">
+                                            <i class="fas fa-circle text-info"></i> {{label_category.2}}
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endblock content-row-4 %}
+                    {% block content-row-5 %}
+                    <div class="row">
+                        <div class="column3">
+                            <div class="card shadow mb-4">
+                                <!-- Card Header - Dropdown -->
+                                <div
+                                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                    <h6 class="m-0 font-weight-bold text-primary">Profit for Each Category</h6>
+                                </div>
+                                <!-- Card Body -->
+                                <div class="card-body">
+                                    <div class="chart-bar">
+                                        <canvas id="myBarChart2"></canvas>
+                                    </div>
+                                    <div class="mt-4 text-center small">
+                                        <span class="mr-2">
+                                            <i class="fas fa-circle text-primary"></i> {{label_category.0}}
+                                        </span>
+                                        <span class="mr-2">
+                                            <i class="fas fa-circle text-success"></i> {{label_category.1}}
+                                        </span>
+                                        <span class="mr-2">
+                                            <i class="fas fa-circle text-info"></i> {{label_category.2}}
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endblock content-row-5 %}
+                    {% block content-row-6 %}
+                    <div class="row">
+                        <div class="column2">
+                            <div class="card shadow mb-4">
+                                <!-- Card Header - Dropdown -->
+                                <div
+                                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                    <h6 class="m-0 font-weight-bold text-primary">Revenue for Each Year</h6>
+                                </div>
+                                <!-- Card Body -->
+                                <div class="card-body">
+                                    <div class="chart-area">
+                                        <canvas id="myAreaChart1"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endblock content-row-6 %}
+                    {% block content-row-7 %}
+                    <div class="row">
+                        <div class="column3">
+                            <div class="card shadow mb-4">
+                                <!-- Card Header - Dropdown -->
+                                <div
+                                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                    <h6 class="m-0 font-weight-bold text-primary">Profit for Each Year</h6>
+                                </div>
+                                <!-- Card Body -->
+                                <div class="card-body">
+                                    <div class="chart-area">
+                                        <canvas id="myAreaChart2"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endblock content-row-7 %}
+                </div>
+            </div>
+            <!-- End of Main Content -->
+
+            {% include 'snippets/footer.html'%}
+
+
+        </div>
+        <!-- End of Content Wrapper -->
+
+    </div>
+    <!-- End of Page Wrapper -->
+
+    {% include 'snippets/scroll.html' %}
+
+    {% include 'snippets/logout.html' %}
+
+    {% include 'snippets/scripts.html' %}
+
+    {% block scripts %}
+    <script>
+        Chart.defaults.global.defaultFontFamily = 'Nunito', '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
+        Chart.defaults.global.defaultFontColor = '#858796';
+    
+        function number_format(number, decimals, dec_point, thousands_sep) {
+            // *     example: number_format(1234.56, 2, ',', ' ');
+            // *     return: '1 234,56'
+            number = (number + '').replace(',', '').replace(' ', '');
+            var n = !isFinite(+number) ? 0 : +number,
+                prec = !isFinite(+decimals) ? 0 : Math.abs(decimals),
+                sep = (typeof thousands_sep === 'undefined') ? ',' : thousands_sep,
+                dec = (typeof dec_point === 'undefined') ? '.' : dec_point,
+                s = '',
+                toFixedFix = function (n, prec) {
+                    var k = Math.pow(10, prec);
+                    return '' + Math.round(n * k) / k;
+                };
+            // Fix for IE parseFloat(0.55).toFixed(0) = 0;
+            s = (prec ? toFixedFix(n, prec) : '' + Math.round(n)).split('.');
+            if (s[0].length > 3) {
+                s[0] = s[0].replace(/\B(?=(?:\d{3})+(?!\d))/g, sep);
+            }
+            if ((s[1] || '').length < prec) {
+                s[1] = s[1] || '';
+                s[1] += new Array(prec - s[1].length + 1).join('0');
+            }
+            return s.join(dec);
+        }
+        var config = {
+            type: 'bar',
+            data: {
+                labels: {{ label_tahun | safe }},
+        datasets: [
+            {
+                label: "Furniture",
+                backgroundColor: "#4e73df",
+                hoverBackgroundColor: "#2e59d9",
+                borderColor: "#4e73df",
+                data: {{ revenue_category1 | safe }},
+                },
+            {
+                label: "Office Suplier",
+                backgroundColor: "#33FF92",
+                hoverBackgroundColor: "#33FF92",
+                borderColor: "##1cc88a",
+                data: {{ revenue_category2 | safe }},
+                },
+            {
+                label: "Technology",
+                backgroundColor: "#36b9cc",
+                hoverBackgroundColor: "#36b9cc",
+                borderColor: "#4e73df",
+                data: {{ revenue_category3 | safe }},
+                },
+        ],
+            },
+        options: {
+            maintainAspectRatio: false,
+                layout: {
+                padding: {
+                    left: 10,
+                        right: 25,
+                            top: 25,
+                                bottom: 0
+                }
+            },
+            scales: {
+                xAxes: [{
+                    time: {
+                        unit: 'month'
+                    },
+                    gridLines: {
+                        display: false,
+                        drawBorder: false
+                    },
+                    ticks: {
+                        maxTicksLimit: 6
+                    },
+                    maxBarThickness: 25,
+                }],
+                    yAxes: [{
+                        ticks: {
+                            min: 0,
+                            maxTicksLimit: 5,
+                            padding: 10,
+                            // Include a dollar sign in the ticks
+                            callback: function (value, index, values) {
+                                return '$' + number_format(value);
+                            }
+                        },
+                        gridLines: {
+                            color: "rgb(234, 236, 244)",
+                            zeroLineColor: "rgb(234, 236, 244)",
+                            drawBorder: false,
+                            borderDash: [2],
+                            zeroLineBorderDash: [2]
+                        }
+                    }],
+                },
+            legend: {
+                display: false
+            },
+            tooltips: {
+                titleMarginBottom: 10,
+                    titleFontColor: '#6e707e',
+                        titleFontSize: 14,
+                            backgroundColor: "rgb(255,255,255)",
+                                bodyFontColor: "#858796",
+                                    borderColor: '#dddfeb',
+                                        borderWidth: 1,
+                                            xPadding: 15,
+                                                yPadding: 15,
+                                                    displayColors: false,
+                                                        caretPadding: 10,
+                                                            callbacks: {
+                    label: function(tooltipItem, chart) {
+                        var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label || '';
+                        return datasetLabel + ': $' + number_format(tooltipItem.yLabel);
+                    }
+                }
+            },
+        }
+        };
+    
+        var config2 = {
+            type: 'bar',
+            data: {
+                labels: {{ label_tahun | safe }},
+        datasets: [
+            {
+                label: "Furniture",
+                backgroundColor: "#4e73df",
+                hoverBackgroundColor: "#2e59d9",
+                borderColor: "#4e73df",
+                data: {{ profit_category1 | safe }},
+                },
+            {
+                label: "Office Suplier",
+                backgroundColor: "#33FF92",
+                hoverBackgroundColor: "#33FF92",
+                borderColor: "##1cc88a",
+                data: {{ profit_category2 | safe }},
+                },
+            {
+                label: "Technology",
+                backgroundColor: "#36b9cc",
+                hoverBackgroundColor: "#36b9cc",
+                borderColor: "#4e73df",
+                data: {{ profit_category3 | safe }},
+                },
+        ],
+            },
+        options: {
+            maintainAspectRatio: false,
+                layout: {
+                padding: {
+                    left: 10,
+                        right: 25,
+                            top: 25,
+                                bottom: 0
+                }
+            },
+            scales: {
+                xAxes: [{
+                    time: {
+                        unit: 'month'
+                    },
+                    gridLines: {
+                        display: false,
+                        drawBorder: false
+                    },
+                    ticks: {
+                        maxTicksLimit: 6
+                    },
+                    maxBarThickness: 25,
+                }],
+                    yAxes: [{
+                        ticks: {
+                            min: 0,
+                            maxTicksLimit: 5,
+                            padding: 10,
+                            // Include a dollar sign in the ticks
+                            callback: function (value, index, values) {
+                                return '$' + number_format(value);
+                            }
+                        },
+                        gridLines: {
+                            color: "rgb(234, 236, 244)",
+                            zeroLineColor: "rgb(234, 236, 244)",
+                            drawBorder: false,
+                            borderDash: [2],
+                            zeroLineBorderDash: [2]
+                        }
+                    }],
+                },
+            legend: {
+                display: false
+            },
+            tooltips: {
+                titleMarginBottom: 10,
+                    titleFontColor: '#6e707e',
+                        titleFontSize: 14,
+                            backgroundColor: "rgb(255,255,255)",
+                                bodyFontColor: "#858796",
+                                    borderColor: '#dddfeb',
+                                        borderWidth: 1,
+                                            xPadding: 15,
+                                                yPadding: 15,
+                                                    displayColors: false,
+                                                        caretPadding: 10,
+                                                            callbacks: {
+                    label: function(tooltipItem, chart) {
+                        var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label || '';
+                        return datasetLabel + ': $' + number_format(tooltipItem.yLabel);
+                    }
+                }
+            },
+        }
+        };
+    
+        var config3 = {
+            type: 'line',
+            data: {
+                labels: {{ label_tahun | safe }},
+        datasets: [{
+            label: "Earnings",
+            lineTension: 0.3,
+            backgroundColor: "rgba(78, 115, 223, 0.05)",
+            borderColor: "rgba(78, 115, 223, 1)",
+            pointRadius: 3,
+            pointBackgroundColor: "rgba(78, 115, 223, 1)",
+            pointBorderColor: "rgba(78, 115, 223, 1)",
+            pointHoverRadius: 3,
+            pointHoverBackgroundColor: "rgba(78, 115, 223, 1)",
+            pointHoverBorderColor: "rgba(78, 115, 223, 1)",
+            pointHitRadius: 10,
+            pointBorderWidth: 2,
+            data: {{ revenue_year | safe }},
+                }],
+            },
+        options: {
+            maintainAspectRatio: false,
+                layout: {
+                padding: {
+                    left: 10,
+                        right: 25,
+                            top: 25,
+                                bottom: 0
+                }
+            },
+            scales: {
+                xAxes: [{
+                    time: {
+                        unit: 'date'
+                    },
+                    gridLines: {
+                        display: false,
+                        drawBorder: false
+                    },
+                    ticks: {
+                        maxTicksLimit: 13
+                    }
+                }],
+                    yAxes: [{
+                        ticks: {
+                            maxTicksLimit: 5,
+                            padding: 10,
+                            // Include a dollar sign in the ticks
+                            callback: function (value, index, values) {
+                                return '$' + number_format(value);
+                            }
+                        },
+                        gridLines: {
+                            color: "rgb(234, 236, 244)",
+                            zeroLineColor: "rgb(234, 236, 244)",
+                            drawBorder: false,
+                            borderDash: [2],
+                            zeroLineBorderDash: [2]
+                        }
+                    }],
+                },
+            legend: {
+                display: false
+            },
+            tooltips: {
+                backgroundColor: "rgb(255,255,255)",
+                    bodyFontColor: "#858796",
+                        titleMarginBottom: 10,
+                            titleFontColor: '#6e707e',
+                                titleFontSize: 14,
+                                    borderColor: '#dddfeb',
+                                        borderWidth: 1,
+                                            xPadding: 15,
+                                                yPadding: 15,
+                                                    displayColors: false,
+                                                        intersect: false,
+                                                            mode: 'index',
+                                                                caretPadding: 10,
+                                                                    callbacks: {
+                    label: function(tooltipItem, chart) {
+                        var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label || '';
+                        return datasetLabel + ': $' + number_format(tooltipItem.yLabel);
+                    }
+                }
+            }
+        }
+        };
+        var config4 = {
+            type: 'line',
+            data: {
+                labels: {{ label_tahun | safe }},
+        datasets: [{
+            label: "Earnings",
+            lineTension: 0.3,
+            backgroundColor: "rgba(78, 115, 223, 0.05)",
+            borderColor: "rgba(78, 115, 223, 1)",
+            pointRadius: 3,
+            pointBackgroundColor: "rgba(78, 115, 223, 1)",
+            pointBorderColor: "rgba(78, 115, 223, 1)",
+            pointHoverRadius: 3,
+            pointHoverBackgroundColor: "rgba(78, 115, 223, 1)",
+            pointHoverBorderColor: "rgba(78, 115, 223, 1)",
+            pointHitRadius: 10,
+            pointBorderWidth: 2,
+            data: {{ profit_year | safe }},
+                }],
+            },
+        options: {
+            maintainAspectRatio: false,
+                layout: {
+                padding: {
+                    left: 10,
+                        right: 25,
+                            top: 25,
+                                bottom: 0
+                }
+            },
+            scales: {
+                xAxes: [{
+                    time: {
+                        unit: 'date'
+                    },
+                    gridLines: {
+                        display: false,
+                        drawBorder: false
+                    },
+                    ticks: {
+                        maxTicksLimit: 13
+                    }
+                }],
+                    yAxes: [{
+                        ticks: {
+                            maxTicksLimit: 5,
+                            padding: 10,
+                            // Include a dollar sign in the ticks
+                            callback: function (value, index, values) {
+                                return '$' + number_format(value);
+                            }
+                        },
+                        gridLines: {
+                            color: "rgb(234, 236, 244)",
+                            zeroLineColor: "rgb(234, 236, 244)",
+                            drawBorder: false,
+                            borderDash: [2],
+                            zeroLineBorderDash: [2]
+                        }
+                    }],
+                },
+            legend: {
+                display: false
+            },
+            tooltips: {
+                backgroundColor: "rgb(255,255,255)",
+                    bodyFontColor: "#858796",
+                        titleMarginBottom: 10,
+                            titleFontColor: '#6e707e',
+                                titleFontSize: 14,
+                                    borderColor: '#dddfeb',
+                                        borderWidth: 1,
+                                            xPadding: 15,
+                                                yPadding: 15,
+                                                    displayColors: false,
+                                                        intersect: false,
+                                                            mode: 'index',
+                                                                caretPadding: 10,
+                                                                    callbacks: {
+                    label: function(tooltipItem, chart) {
+                        var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label || '';
+                        return datasetLabel + ': $' + number_format(tooltipItem.yLabel);
+                    }
+                }
+            }
+        }
+        };
+    
+        var config5 = {
+            type: 'pie',
+            data: {
+                labels: {{ label_region | safe }},
+                datasets: [{
+                    backgroundColor: [
+                    "#2ecc71",
+                    "#3498db",
+                    "#36b9cc",
+    
+                ],
+                data: {{ revenue_region | safe }}
+                }],
+            },
+            options: {
+                tooltips: {
+                    backgroundColor: "rgb(255,255,255)",
+                    bodyFontColor: "#858796",
+                    borderColor: '#dddfeb',
+                    borderWidth: 1,
+                    xPadding: 15,
+                    yPadding: 15,
+                    displayColors: false,
+                    caretPadding: 10,
+                    callbacks: {
+                        // this callback is used to create the tooltip label
+                        label: function(tooltipItem, data) {
+                        // get the data label and data value to display
+                        // convert the data value to local string so it uses a comma seperated number
+                        var dataLabel = data.labels[tooltipItem.index];
+                        var value = ': ' + '$ ' + data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index].toLocaleString();
+    
+                        // make this isn't a multi-line label (e.g. [["label 1 - line 1, "line 2, ], [etc...]])
+                        if (Chart.helpers.isArray(dataLabel)) {
+                            // show value on first line of multiline label
+                            // need to clone because we are changing the value
+                            dataLabel = dataLabel.slice();
+                            dataLabel[0] += value;
+                        } else {
+                            dataLabel += value;
+                        }
+    
+                        // return the text to display on the tooltip
+                        return dataLabel;
+                        }
+                    }
+                }
+            }
+            };
+            var config6 = {
+            type: 'pie',
+            data: {
+                labels: {{ label_region | safe }},
+                datasets: [{
+                    backgroundColor: [
+                    "#2ecc71",
+                    "#3498db",
+                    "#36b9cc",
+    
+                ],
+                data: {{ profit_region | safe }}
+                }],
+            },
+            options: {
+                tooltips: {
+                    backgroundColor: "rgb(255,255,255)",
+                    bodyFontColor: "#858796",
+                    borderColor: '#dddfeb',
+                    borderWidth: 1,
+                    xPadding: 15,
+                    yPadding: 15,
+                    displayColors: false,
+                    caretPadding: 10,
+                    callbacks: {
+                        // this callback is used to create the tooltip label
+                        label: function(tooltipItem, data) {
+                        // get the data label and data value to display
+                        // convert the data value to local string so it uses a comma seperated number
+                        var dataLabel = data.labels[tooltipItem.index];
+                        var value = ': ' + '$ ' + data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index].toLocaleString();
+    
+                        // make this isn't a multi-line label (e.g. [["label 1 - line 1, "line 2, ], [etc...]])
+                        if (Chart.helpers.isArray(dataLabel)) {
+                            // show value on first line of multiline label
+                            // need to clone because we are changing the value
+                            dataLabel = dataLabel.slice();
+                            dataLabel[0] += value;
+                        } else {
+                            dataLabel += value;
+                        }
+    
+                        // return the text to display on the tooltip
+                        return dataLabel;
+                        }
+                    }
+                }
+            }
+            };
+        window.onload = function () {
+            var ctx = document.getElementById("myBarChart1");
+            window.myBar = new Chart(ctx, config);
+            var ctx2 = document.getElementById("myBarChart2");
+            window.myBar = new Chart(ctx2, config2);
+            var ctx3 = document.getElementById("myAreaChart1");
+            window.myLine = new Chart(ctx3, config3);
+            var ctx4 = document.getElementById("myAreaChart2");
+            window.myLine = new Chart(ctx4, config4);
+            var ctx5 = document.getElementById("myPieChart1");
+            window.myLine = new Chart(ctx5, config5);
+            var ctx6 = document.getElementById("myPieChart2");
+            window.myLine = new Chart(ctx6, config6);
+        };
+    </script>
+    {% endblock scripts %}
+</body>
+
+</html>

@@ -1,0 +1,58 @@
+{% extends 'sales/sales.html' %}
+{% block header %}
+<div class="d-flex bd-highlight">
+    <div class="p-2 flex-grow-1 bd-highlight">
+        <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
+    </div>
+    <div class="p-2 bd-highlight">
+        <div class="dropdown show">
+            <a class="btn btn-outline-dark my-2 my-sm-0" href="#" role="button"
+                id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
+                aria-expanded="false">
+                Yearly <i class="fas fa-caret-down"></i>
+            </a>
+
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                <a class="dropdown-item" href={% url 'yearly-sales' %}>Yearly</a>
+                <a class="dropdown-item" href={% url 'quarterly-sales' %}>Quarterly</a>
+            </div>
+        </div>
+    </div>
+    <div class="p-2 bd-highlight">
+        <div class="dropdown show">
+            <a class="btn btn-outline-dark my-2 my-sm-0" href="#" role="button"
+                id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
+                aria-expanded="false">
+                Year <i class="fas fa-caret-down"></i>
+            </a>
+
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                <a class="dropdown-item" href={% url 'yearly-sales-2015' %}>2015</a>
+                <a class="dropdown-item" href={% url 'yearly-sales-2016' %}>2016</a>
+                <a class="dropdown-item" href={% url 'yearly-sales-2017' %}>2017</a>
+                <a class="dropdown-item" href={% url 'yearly-sales-2018' %}>2018</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock header %}
+
+{% block value-revenue %}
+{% if beda_revenue < 1 %}
+<span class="text-danger mr-2"><i class="fa fa-arrow-down"></i> ${{ beda_revenue|stringformat:".1f" }}</span>
+<span class="text-nowrap">since last year</span>
+{% else %}
+<span class="text-success mr-2"><i class="fa fa-arrow-up"></i> $ {{ beda_revenue|stringformat:".1f" }}</span>
+<span class="text-nowrap">since last year</span>
+{% endif %}
+{% endblock value-revenue %}
+
+{% block value-profit %}
+{% if beda_profit < 1 %}
+<span class="text-danger mr-2 "><i class="fa fa-arrow-down"></i> $ {{ beda_profit|stringformat:".1f" }}</span>
+<span class="text-nowrap">since last year</span>
+{% else %}
+<span class="text-success mr-2"><i class="fa fa-arrow-up"></i> $ {{ beda_profit|stringformat:".1f" }}</span>
+<span class="text-nowrap">since last year</span>
+{% endif %}
+{% endblock value-profit %}

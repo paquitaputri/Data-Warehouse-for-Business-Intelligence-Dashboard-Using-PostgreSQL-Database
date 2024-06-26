@@ -1,0 +1,427 @@
+{% extends 'logistic/logistic-yearly.html' %}
+{% block name_dropdown%}
+2017 <i class="fas fa-caret-down"></i>
+{% endblock name_dropdown%}
+
+{% block content-row-1 %}
+<div class="row" id="chart2">
+
+    <!-- Earnings (Monthly) Card Example -->
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-primary shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        {% block ontime %}
+                        <div class="text-xs font-weight-bold text-success text-uppercase mb-2">
+                            ON TIME</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">{{sum_ontime}}</div>
+                        {% endblock ontime %}
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-calendar-alt fa-2x text-gray-300"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Earnings (Monthly) Card Example -->
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-success shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        {% block infull %}
+                        <div class="text-xs font-weight-bold text-success text-uppercase mb-2">
+                            IN FULL</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">{{sum_infull}}</div>
+                        {% endblock infull %}
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-truck-loading fa-2x text-gray-300"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pending Requests Card Example -->
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-info shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-info text-uppercase mb-2">
+                            Total Pengiriman</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">{{sum_pengiriman}}</div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-truck fa-2x text-gray-300"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-warning shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-warning text-uppercase mb-2">
+                            KPI OTIF</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">{{sum_percent}} % </div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-tachometer-alt fa-2x text-gray-300"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content-row-1 %}
+
+{% block content-row-2 %}
+<div class="row">
+    <div class="column2">
+        <div class="card shadow mb-4">
+            <!-- Card Header - Dropdown -->
+            <div
+                class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-primary">KPI OTIF Per Tahun</h6>
+            </div>
+            <!-- Card Body -->
+            <div class="card-body">
+                <div class="chart-area">
+                    <canvas id="myAreaChart1"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content-row-2 %}
+{% block content-row-3 %}
+<div class="row">
+    <div class="column2">
+        <div class="card shadow mb-4">
+            <!-- Card Header - Dropdown -->
+            <div
+                class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-primary">Delivered In Full Per Tahun</h6>
+            </div>
+            <!-- Card Body -->
+            <div class="card-body">
+                <div class="chart-area">
+                    <canvas id="myAreaChart2"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content-row-3 %}
+{% block content-row-4 %}
+<div class="row">
+    <div class="column3">
+        <div class="card shadow mb-4">
+            <!-- Card Header - Dropdown -->
+            <div
+                class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-primary">Delivered On Time Per Tahun</h6>
+            </div>
+            <!-- Card Body -->
+            <div class="card-body">
+                <div class="chart-area">
+                    <canvas id="myAreaChart3"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content-row-4 %}
+
+{% block content-row-5 %}
+
+{% endblock content-row-5 %}
+
+{% block content-row-6 %}
+
+{% endblock content-row-6 %}
+
+{% block script-chart %}
+<script>
+    Chart.defaults.global.defaultFontFamily = 'Nunito', '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
+    Chart.defaults.global.defaultFontColor = '#858796';
+
+    var config = {
+        type: 'line',
+        data: {
+            labels: {{ label_bulan | safe }},
+    datasets: [{
+        label: "OTIF",
+        lineTension: 0.3,
+        backgroundColor: "rgba(78, 115, 223, 0.05)",
+        borderColor: "rgba(78, 115, 223, 1)",
+        pointRadius: 3,
+        pointBackgroundColor: "rgba(78, 115, 223, 1)",
+        pointBorderColor: "rgba(78, 115, 223, 1)",
+        pointHoverRadius: 3,
+        pointHoverBackgroundColor: "rgba(78, 115, 223, 1)",
+        pointHoverBorderColor: "rgba(78, 115, 223, 1)",
+        pointHitRadius: 10,
+        pointBorderWidth: 2,
+        data: {{ percentage_otif | safe }},
+        }],
+    },
+    options: {
+        maintainAspectRatio: false,
+            layout: {
+            padding: {
+                left: 10,
+                    right: 25,
+                        top: 25,
+                            bottom: 0
+            }
+        },
+        scales: {
+            xAxes: [{
+                time: {
+                    unit: 'date'
+                },
+                gridLines: {
+                    display: false,
+                    drawBorder: false
+                },
+                ticks: {
+                    maxTicksLimit: 13
+                }
+            }],
+                yAxes: [{
+                    ticks: {
+                        maxTicksLimit: 5,
+                        padding: 10,
+                        // Include a dollar sign in the ticks
+                        callback: function (value, index, values) {
+                            return value + '%';
+                        }
+                    },
+                    gridLines: {
+                        color: "rgb(234, 236, 244)",
+                        zeroLineColor: "rgb(234, 236, 244)",
+                        drawBorder: false,
+                        borderDash: [2],
+                        zeroLineBorderDash: [2]
+                    }
+                }],
+        },
+        legend: {
+            display: false
+        },
+        tooltips: {
+            backgroundColor: "rgb(255,255,255)",
+                bodyFontColor: "#858796",
+                    titleMarginBottom: 10,
+                        titleFontColor: '#6e707e',
+                            titleFontSize: 14,
+                                borderColor: '#dddfeb',
+                                    borderWidth: 1,
+                                        xPadding: 15,
+                                            yPadding: 15,
+                                                displayColors: false,
+                                                    intersect: false,
+                                                        mode: 'index',
+                                                            caretPadding: 10,
+                                                                callbacks: {
+                label: function(tooltipItem, chart) {
+                    var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label || '';
+                    return datasetLabel + ': ' + tooltipItem.yLabel + "%";
+                }
+            }
+        }
+    }
+};
+    var config2 = {
+        type: 'line',
+        data: {
+            labels: {{ label_bulan | safe }},
+    datasets: [{
+        label: "In Full",
+        lineTension: 0.3,
+        backgroundColor: "rgba(78, 115, 223, 0.05)",
+        borderColor: "rgba(78, 115, 223, 1)",
+        pointRadius: 3,
+        pointBackgroundColor: "rgba(78, 115, 223, 1)",
+        pointBorderColor: "rgba(78, 115, 223, 1)",
+        pointHoverRadius: 3,
+        pointHoverBackgroundColor: "rgba(78, 115, 223, 1)",
+        pointHoverBorderColor: "rgba(78, 115, 223, 1)",
+        pointHitRadius: 10,
+        pointBorderWidth: 2,
+        data: {{ infull | safe }},
+        }],
+    },
+    options: {
+        maintainAspectRatio: false,
+            layout: {
+            padding: {
+                left: 10,
+                    right: 25,
+                        top: 25,
+                            bottom: 0
+            }
+        },
+        scales: {
+            xAxes: [{
+                time: {
+                    unit: 'date'
+                },
+                gridLines: {
+                    display: false,
+                    drawBorder: false
+                },
+                ticks: {
+                    maxTicksLimit: 13
+                }
+            }],
+                yAxes: [{
+                    ticks: {
+                        maxTicksLimit: 5,
+                        padding: 10,
+                        // Include a dollar sign in the ticks
+                        callback: function (value, index, values) {
+                            return value;
+                        }
+                    },
+                    gridLines: {
+                        color: "rgb(234, 236, 244)",
+                        zeroLineColor: "rgb(234, 236, 244)",
+                        drawBorder: false,
+                        borderDash: [2],
+                        zeroLineBorderDash: [2]
+                    }
+                }],
+        },
+        legend: {
+            display: false
+        },
+        tooltips: {
+            backgroundColor: "rgb(255,255,255)",
+                bodyFontColor: "#858796",
+                    titleMarginBottom: 10,
+                        titleFontColor: '#6e707e',
+                            titleFontSize: 14,
+                                borderColor: '#dddfeb',
+                                    borderWidth: 1,
+                                        xPadding: 15,
+                                            yPadding: 15,
+                                                displayColors: false,
+                                                    intersect: false,
+                                                        mode: 'index',
+                                                            caretPadding: 10,
+                                                                callbacks: {
+                label: function(tooltipItem, chart) {
+                    var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label || '';
+                    return datasetLabel + ': ' + tooltipItem.yLabel;
+                }
+            }
+        }
+    }
+};
+
+    var config3 = {
+        type: 'line',
+        data: {
+            labels: {{ label_bulan | safe }},
+    datasets: [{
+        label: "On Time",
+        lineTension: 0.3,
+        backgroundColor: "rgba(78, 115, 223, 0.05)",
+        borderColor: "rgba(78, 115, 223, 1)",
+        pointRadius: 3,
+        pointBackgroundColor: "rgba(78, 115, 223, 1)",
+        pointBorderColor: "rgba(78, 115, 223, 1)",
+        pointHoverRadius: 3,
+        pointHoverBackgroundColor: "rgba(78, 115, 223, 1)",
+        pointHoverBorderColor: "rgba(78, 115, 223, 1)",
+        pointHitRadius: 10,
+        pointBorderWidth: 2,
+        data: {{ ontime | safe }},
+        }],
+    },
+    options: {
+        maintainAspectRatio: false,
+            layout: {
+            padding: {
+                left: 10,
+                    right: 25,
+                        top: 25,
+                            bottom: 0
+            }
+        },
+        scales: {
+            xAxes: [{
+                time: {
+                    unit: 'date'
+                },
+                gridLines: {
+                    display: false,
+                    drawBorder: false
+                },
+                ticks: {
+                    maxTicksLimit: 13
+                }
+            }],
+                yAxes: [{
+                    ticks: {
+                        maxTicksLimit: 5,
+                        padding: 10,
+                        // Include a dollar sign in the ticks
+                        callback: function (value, index, values) {
+                            return value;
+                        }
+                    },
+                    gridLines: {
+                        color: "rgb(234, 236, 244)",
+                        zeroLineColor: "rgb(234, 236, 244)",
+                        drawBorder: false,
+                        borderDash: [2],
+                        zeroLineBorderDash: [2]
+                    }
+                }],
+        },
+        legend: {
+            display: false
+        },
+        tooltips: {
+            backgroundColor: "rgb(255,255,255)",
+                bodyFontColor: "#858796",
+                    titleMarginBottom: 10,
+                        titleFontColor: '#6e707e',
+                            titleFontSize: 14,
+                                borderColor: '#dddfeb',
+                                    borderWidth: 1,
+                                        xPadding: 15,
+                                            yPadding: 15,
+                                                displayColors: false,
+                                                    intersect: false,
+                                                        mode: 'index',
+                                                            caretPadding: 10,
+                                                                callbacks: {
+                label: function(tooltipItem, chart) {
+                    var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label || '';
+                    return datasetLabel + ': ' + tooltipItem.yLabel;
+                }
+            }
+        }
+    }
+};
+    window.onload = function () {
+        var ctx = document.getElementById("myAreaChart1");
+        window.myLine = new Chart(ctx, config);
+        var ctx2 = document.getElementById("myAreaChart2");
+        window.myLine = new Chart(ctx2, config2);
+        var ctx3 = document.getElementById("myAreaChart3");
+        window.myLine = new Chart(ctx3, config3);
+    };
+</script>
+{% endblock script-chart %}

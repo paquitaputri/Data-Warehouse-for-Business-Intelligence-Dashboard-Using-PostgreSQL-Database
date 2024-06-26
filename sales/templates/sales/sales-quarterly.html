@@ -1,0 +1,415 @@
+{% extends 'sales/sales.html' %}
+{% block header %}
+<div class="d-flex bd-highlight">
+    <div class="p-2 flex-grow-1 bd-highlight">
+        <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
+    </div>
+    <div class="p-2 bd-highlight">
+        <div class="dropdown show">
+            <a class="btn btn-outline-dark my-2 my-sm-0" href="#" role="button"
+                id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
+                aria-expanded="false">
+                Quarterly <i class="fas fa-caret-down"></i>
+            </a>
+
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                <a class="dropdown-item" href={% url 'yearly-sales' %}>Yearly</a>
+                <a class="dropdown-item" href={% url 'quarterly-sales' %}>Quarterly</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock header %}
+
+{% block revenue %}
+<div class="text-xs font-weight-bold text-primary text-uppercase mb-2">
+    Revenue</div>
+<div class="h5 mb-0 font-weight-bold text-gray-800">$ {{quarter_revenue}}</div>
+{% endblock revenue %}
+
+{% block value-revenue %}
+{% if perbedaan_revenue < 1 %}
+<span class="text-danger mr-2"><i class="fa fa-arrow-down"></i> $ {{ perbedaan_revenue|stringformat:".2f" }}</span>
+<span class="text-nowrap">since last quarter</span>
+{% else %}
+<span class="text-success mr-2"><i class="fa fa-arrow-up"></i> $ {{ perbedaan_revenue|stringformat:".2f" }}</span>
+<span class="text-nowrap">since last quarter</span>
+{% endif %}
+{% endblock value-revenue %}
+
+{% block profit %}
+<div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+    Profit</div>
+<div class="h5 mb-0 font-weight-bold text-gray-800">$ {{quarter_profit}}</div>
+{% endblock profit %}
+
+
+{% block value-profit %}
+{% if perbedaan_profit < 1 %}
+<span class="text-danger mr-2"><i class="fa fa-arrow-down"></i> $ {{ perbedaan_profit|stringformat:".2f" }}</span>
+<span class="text-nowrap">since last quarter</span>
+{% else %}
+<span class="text-success mr-2"><i class="fa fa-arrow-up"></i> $ {{ perbedaan_profit|stringformat:".2f" }}</span>
+<span class="text-nowrap">since last quarter</span>
+{% endif %}
+{% endblock value-profit %}
+
+{% block transaksi %}
+<div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+    Total Transaksi</div>
+<div class="h5 mb-0 font-weight-bold text-gray-800">{{count}}</div>
+{% endblock transaksi %}
+
+{% block content-row-4 %}
+<div class="row">
+    <div class="column3">
+        <div class="card shadow mb-4">
+            <!-- Card Header - Dropdown -->
+            <div
+                class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-primary">Profit for Each Quarter</h6>
+            </div>
+            <!-- Card Body -->
+            <div class="card-body">
+                <div class="chart-bar">
+                    <canvas id="myBarChart1"></canvas>
+                </div>
+                <div class="mt-4 text-center small">
+                    <span class="mr-2">
+                        <i class="fas fa-circle text-primary"></i> {{tahun.0}}
+                    </span>
+                    <span class="mr-2">
+                        <i class="fas fa-circle text-success"></i> {{tahun.1}}
+                    </span>
+                    <span class="mr-2">
+                        <i class="fas fa-circle text-info"></i> {{tahun.2}}
+                    </span>
+                    <span class="mr-2">
+                        <i class="fas fa-circle text-warning"></i> {{tahun.3}}
+                    </span>
+                </div>
+                <div class="mt-4 text-center small">
+                    <span class="mr-5">
+                        1 = Januari - Maret
+                    </span>
+                    <span class="mr-5">
+                        2 = April - Juni
+                    </span>
+                    <span class="mr-5">
+                        2 = Juli - September
+                    </span>
+                    <span class="mr-5">
+                        3 = Oktober - December
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content-row-4 %}
+{% block content-row-5 %}
+<div class="row">
+    <div class="column3">
+        <div class="card shadow mb-4">
+            <!-- Card Header - Dropdown -->
+            <div
+                class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-primary">Revenue for Each Quarter</h6>
+            </div>
+            <!-- Card Body -->
+            <div class="card-body">
+                <div class="chart-bar">
+                    <canvas id="myBarChart2"></canvas>
+                </div>
+                <div class="mt-4 text-center small">
+                    <span class="mr-2">
+                        <i class="fas fa-circle text-primary"></i> {{tahun.0}}
+                    </span>
+                    <span class="mr-2">
+                        <i class="fas fa-circle text-success"></i> {{tahun.1}}
+                    </span>
+                    <span class="mr-2">
+                        <i class="fas fa-circle text-info"></i> {{tahun.2}}
+                    </span>
+                    <span class="mr-2">
+                        <i class="fas fa-circle text-warning"></i> {{tahun.3}}
+                    </span>
+                </div>
+                <div class="mt-4 text-center small">
+                    <span class="mr-5">
+                        1 = Januari - Maret
+                    </span>
+                    <span class="mr-5">
+                        2 = April - Juni
+                    </span>
+                    <span class="mr-5">
+                        2 = Juli - September
+                    </span>
+                    <span class="mr-5">
+                        3 = Oktober - December
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content-row-5 %}
+
+{% block content-row-2 %}
+
+{% endblock content-row-2%}
+
+{% block content-row-3 %}
+
+{% endblock content-row-3%}
+
+{% block content-row-6 %}
+
+{% endblock content-row-6 %}
+{% block content-row-7 %}
+
+{% endblock content-row-7 %}
+
+{% block scripts %}
+<script>
+    Chart.defaults.global.defaultFontFamily = 'Nunito', '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
+    Chart.defaults.global.defaultFontColor = '#858796';
+
+    function number_format(number, decimals, dec_point, thousands_sep) {
+        // *     example: number_format(1234.56, 2, ',', ' ');
+        // *     return: '1 234,56'
+        number = (number + '').replace(',', '').replace(' ', '');
+        var n = !isFinite(+number) ? 0 : +number,
+            prec = !isFinite(+decimals) ? 0 : Math.abs(decimals),
+            sep = (typeof thousands_sep === 'undefined') ? ',' : thousands_sep,
+            dec = (typeof dec_point === 'undefined') ? '.' : dec_point,
+            s = '',
+            toFixedFix = function (n, prec) {
+                var k = Math.pow(10, prec);
+                return '' + Math.round(n * k) / k;
+            };
+        // Fix for IE parseFloat(0.55).toFixed(0) = 0;
+        s = (prec ? toFixedFix(n, prec) : '' + Math.round(n)).split('.');
+        if (s[0].length > 3) {
+            s[0] = s[0].replace(/\B(?=(?:\d{3})+(?!\d))/g, sep);
+        }
+        if ((s[1] || '').length < prec) {
+            s[1] = s[1] || '';
+            s[1] += new Array(prec - s[1].length + 1).join('0');
+        }
+        return s.join(dec);
+    }
+    var config = {
+        type: 'bar',
+        data: {
+            labels: {{ quarter | safe }},
+    datasets: [
+        {
+            label: "2015",
+            backgroundColor: "#4e73df",
+            hoverBackgroundColor: "#4e73df",
+            borderColor: "#4e73df",
+            data: {{ revenue_quarter1 | safe }},
+            },
+        {
+            label: "2016",
+            backgroundColor: "#33FF92",
+            hoverBackgroundColor: "#33FF92",
+            borderColor: "##1cc88a",
+            data: {{ revenue_quarter2 | safe }},
+            },
+        {
+            label: "2017",
+            backgroundColor: "#36b9cc",
+            hoverBackgroundColor: "#36b9cc",
+            borderColor: "#4e73df",
+            data: {{ revenue_quarter3 | safe }},
+            },
+        {
+            label: "2018",
+            backgroundColor: "#FFC300",
+            hoverBackgroundColor: "#FFC300",
+            borderColor: "#4e73df",
+            data: {{ revenue_quarter4 | safe }},
+            },
+    ],
+        },
+    options: {
+        maintainAspectRatio: false,
+            layout: {
+            padding: {
+                left: 10,
+                    right: 25,
+                        top: 25,
+                            bottom: 0
+            }
+        },
+        scales: {
+            xAxes: [{
+                time: {
+                    unit: 'month'
+                },
+                gridLines: {
+                    display: false,
+                    drawBorder: false
+                },
+                ticks: {
+                    maxTicksLimit: 6
+                },
+                maxBarThickness: 25,
+            }],
+                yAxes: [{
+                    ticks: {
+                        min: 0,
+                        maxTicksLimit: 5,
+                        padding: 10,
+                        // Include a dollar sign in the ticks
+                        callback: function (value, index, values) {
+                            return '$' + number_format(value);
+                        }
+                    },
+                    gridLines: {
+                        color: "rgb(234, 236, 244)",
+                        zeroLineColor: "rgb(234, 236, 244)",
+                        drawBorder: false,
+                        borderDash: [2],
+                        zeroLineBorderDash: [2]
+                    }
+                }],
+            },
+        legend: {
+            display: false
+        },
+        tooltips: {
+            titleMarginBottom: 10,
+                titleFontColor: '#6e707e',
+                    titleFontSize: 14,
+                        backgroundColor: "rgb(255,255,255)",
+                            bodyFontColor: "#858796",
+                                borderColor: '#dddfeb',
+                                    borderWidth: 1,
+                                        xPadding: 15,
+                                            yPadding: 15,
+                                                displayColors: false,
+                                                    caretPadding: 10,
+                                                        callbacks: {
+                label: function(tooltipItem, chart) {
+                    var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label || '';
+                    return datasetLabel + ': $' + number_format(tooltipItem.yLabel);
+                }
+            }
+        },
+    }
+    };
+
+    var config2 = {
+        type: 'bar',
+        data: {
+            labels: {{ quarter | safe }},
+    datasets: [
+        {
+            label: "2015",
+            backgroundColor: "#4e73df",
+            hoverBackgroundColor: "#4e73df",
+            borderColor: "#4e73df",
+            data: {{ profit_quarter1 | safe }},
+            },
+        {
+            label: "2016",
+            backgroundColor: "#33FF92",
+            hoverBackgroundColor: "#33FF92",
+            borderColor: "##1cc88a",
+            data: {{ profit_quarter2 | safe }},
+            },
+        {
+            label: "2017",
+            backgroundColor: "#36b9cc",
+            hoverBackgroundColor: "#36b9cc",
+            borderColor: "#4e73df",
+            data: {{ profit_quarter3 | safe }},
+            },
+        {
+            label: "2018",
+            backgroundColor: "#FFC300",
+            hoverBackgroundColor: "#FFC300",
+            borderColor: "#4e73df",
+            data: {{ profit_quarter4 | safe }},
+            },
+    ],
+        },
+    options: {
+        maintainAspectRatio: false,
+            layout: {
+            padding: {
+                left: 10,
+                    right: 25,
+                        top: 25,
+                            bottom: 0
+            }
+        },
+        scales: {
+            xAxes: [{
+                time: {
+                    unit: 'month'
+                },
+                gridLines: {
+                    display: false,
+                    drawBorder: false
+                },
+                ticks: {
+                    maxTicksLimit: 6
+                },
+                maxBarThickness: 25,
+            }],
+                yAxes: [{
+                    ticks: {
+                        min: 0,
+                        maxTicksLimit: 5,
+                        padding: 10,
+                        // Include a dollar sign in the ticks
+                        callback: function (value, index, values) {
+                            return '$' + number_format(value);
+                        }
+                    },
+                    gridLines: {
+                        color: "rgb(234, 236, 244)",
+                        zeroLineColor: "rgb(234, 236, 244)",
+                        drawBorder: false,
+                        borderDash: [2],
+                        zeroLineBorderDash: [2]
+                    }
+                }],
+            },
+        legend: {
+            display: false
+        },
+        tooltips: {
+            titleMarginBottom: 10,
+                titleFontColor: '#6e707e',
+                    titleFontSize: 14,
+                        backgroundColor: "rgb(255,255,255)",
+                            bodyFontColor: "#858796",
+                                borderColor: '#dddfeb',
+                                    borderWidth: 1,
+                                        xPadding: 15,
+                                            yPadding: 15,
+                                                displayColors: false,
+                                                    caretPadding: 10,
+                                                        callbacks: {
+                label: function(tooltipItem, chart) {
+                    var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label || '';
+                    return datasetLabel + ': $' + number_format(tooltipItem.yLabel);
+                }
+            }
+        },
+    }
+    };
+
+    window.onload = function () {
+        var ctx = document.getElementById("myBarChart1");
+        window.myBar = new Chart(ctx, config);
+        var ctx2 = document.getElementById("myBarChart2");
+        window.myBar = new Chart(ctx2, config2);
+    };
+</script>
+{% endblock scripts %}

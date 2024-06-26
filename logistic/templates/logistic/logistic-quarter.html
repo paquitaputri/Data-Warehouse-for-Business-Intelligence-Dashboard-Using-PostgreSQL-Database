@@ -1,0 +1,612 @@
+{% extends 'logistic/logistic.html' %}
+
+{% block header %}
+<div class="d-flex bd-highlight">
+    <div class="p-2 flex-grow-1 bd-highlight">
+        <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
+    </div>
+    <div class="p-2 bd-highlight">
+        <div class="dropdown show">
+            <a class="btn btn-outline-dark my-2 my-sm-0" href="#" role="button"
+                id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
+                aria-expanded="false">
+                Quarterly <i class="fas fa-caret-down"></i>
+            </a>
+
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                <a class="dropdown-item" href={% url 'yearly-logistic' %}>Yearly</a>
+                <a class="dropdown-item" href={% url 'quarterly-logistic' %}>Quarterly</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock header %}
+
+{% block content-row-1 %}
+<div class="row" id="chart2">
+    <!-- Earnings (Monthly) Card Example -->
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-primary shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        {% block ontime %}
+                        <div class="text-xs font-weight-bold text-success text-uppercase mb-2">
+                            ON TIME</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">{{ontime_quarter}}</div>
+                        {% endblock ontime %}
+                    </div>
+                    <div class="col-auto mr-4">
+                        <i class="fas fa-calendar-alt fa-2x text-gray-300"></i>
+                    </div>
+                    <div class="col-auto mt-2">
+                        {% if different_ontime < 1 %} 
+                        <span class="text-danger mr-2"><i class="fa fa-arrow-down"></i> {{ different_ontime }}</span>
+                        <span class="text-nowrap">last quarter </span>
+                        {% else %}
+                        <span class="text-success mr-2"><i class="fa fa-arrow-up"></i>{{ different_ontime }}</span>
+                        <span class="text-nowrap">last quarter </span>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Earnings (Monthly) Card Example -->
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-success shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        {% block infull %}
+                        <div class="text-xs font-weight-bold text-success text-uppercase mb-2">
+                            IN FULL</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">{{infull_quarter}}</div>
+                        {% endblock infull %}
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-truck-loading fa-2x text-gray-300"></i>
+                    </div>
+                    <div class="col-auto mt-2">
+                        {% if different_infull < 1 %} 
+                        <span class="text-danger mr-2"><i  class="fa fa-arrow-down"></i> {{ different_infull }}</span>
+                        <span class="text-nowrap">last quarter</span>
+                        {% else %}
+                        <span class="text-success mr-2"><i class="fa fa-arrow-up"></i>{{ different_infull }}</span>
+                        <span class="text-nowrap">last quarter </span>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pending Requests Card Example -->
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-info shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-info text-uppercase mb-2">
+                            Total Pengiriman</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">{{pengiriman_quarter}}</div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-truck fa-2x text-gray-300"></i>
+                    </div>
+                    <div class="col-auto mt-2">
+                        {% if different_pengiriman < 1 %} 
+                        <span class="text-danger mr-2"><i class="fa fa-arrow-down"></i> {{ different_pengiriman }}</span>
+                        <span class="text-nowrap">last quarter</span>
+                        {% else %}
+                        <span class="text-success mr-2"><i class="fa fa-arrow-up"></i>{{ different_pengiriman }}</span>
+                        <span class="text-nowrap">last quarter</span>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-warning shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-warning text-uppercase mb-2">
+                            KPI OTIF</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">{{otif_quarter}} % </div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-tachometer-alt fa-2x text-gray-300"></i>
+                    </div>
+                    <div class="col-auto mt-2">
+                        {% if different_otif < 1 %} 
+                        <span class="text-danger mr-2"><i  class="fa fa-arrow-down"></i> {{ different_otif }}</span>
+                        <span class="text-nowrap">last quarter</span>
+                        {% else %}
+                        <span class="text-success mr-2"><i class="fa fa-arrow-up"></i>{{ different_otif }}</span>
+                        <span class="text-nowrap">last quarter</span>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content-row-1 %}
+{% block content-row-2 %}
+<div class="row">
+    <div class="column3">
+        <div class="card shadow mb-4">
+            <!-- Card Header - Dropdown -->
+            <div
+                class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-primary">KPI OTIF Per Quarter</h6>
+            </div>
+            <!-- Card Body -->
+            <div class="card-body">
+                <div class="chart-bar">
+                    <canvas id="myBarChart1"></canvas>
+                </div>
+                <div class="mt-4 text-center small">
+                    <span class="mr-2">
+                        <i class="fas fa-circle text-primary"></i> {{label_tahun.0}}
+                    </span>
+                    <span class="mr-2">
+                        <i class="fas fa-circle text-success"></i> {{label_tahun.1}}
+                    </span>
+                    <span class="mr-2">
+                        <i class="fas fa-circle text-info"></i> {{label_tahun.2}}
+                    </span>
+                    <span class="mr-2">
+                        <i class="fas fa-circle text-warning"></i> {{label_tahun.3}}
+                    </span>
+                </div>
+                <div class="mt-4 text-center small">
+                    <span class="mr-5">
+                        Quarter 1 = Januari - Maret
+                    </span>
+                    <span class="mr-5">
+                        Quarter 2 = April - Juni
+                    </span>
+                    <span class="mr-5">
+                        Quarter 3 = Juli - September
+                    </span>
+                    <span class="mr-5">
+                        Quarter 4 = Oktober - December
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content-row-2 %}
+{% block content-row-3 %}
+<div class="row">
+    <div class="column3">
+        <div class="card shadow mb-4">
+            <!-- Card Header - Dropdown -->
+            <div
+                class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-primary">Delivered On Time Per Quarter</h6>
+            </div>
+            <!-- Card Body -->
+            <div class="card-body">
+                <div class="chart-bar">
+                    <canvas id="myBarChart2"></canvas>
+                </div>
+                <div class="mt-4 text-center small">
+                    <span class="mr-2">
+                        <i class="fas fa-circle text-primary"></i> {{label_tahun.0}}
+                    </span>
+                    <span class="mr-2">
+                        <i class="fas fa-circle text-success"></i> {{label_tahun.1}}
+                    </span>
+                    <span class="mr-2">
+                        <i class="fas fa-circle text-info"></i> {{label_tahun.2}}
+                    </span>
+                    <span class="mr-2">
+                        <i class="fas fa-circle text-warning"></i> {{label_tahun.3}}
+                    </span>
+                </div>
+                <div class="mt-4 text-center small">
+                    <span class="mr-5">
+                        Quarter 1 = Januari - Maret
+                    </span>
+                    <span class="mr-5">
+                        Quarter 2 = April - Juni
+                    </span>
+                    <span class="mr-5">
+                        Quarter 3 = Juli - September
+                    </span>
+                    <span class="mr-5">
+                        Quarter 4 = Oktober - December
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content-row-3 %}
+{% block content-row-4 %}
+<div class="row">
+    <div class="column3">
+        <div class="card shadow mb-4">
+            <!-- Card Header - Dropdown -->
+            <div
+                class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-primary">Delivered In Full Per Quarter</h6>
+            </div>
+            <!-- Card Body -->
+            <div class="card-body">
+                <div class="chart-bar">
+                    <canvas id="myBarChart3"></canvas>
+                </div>
+                <div class="mt-4 text-center small">
+                    <span class="mr-2">
+                        <i class="fas fa-circle text-primary"></i> {{label_tahun.0}}
+                    </span>
+                    <span class="mr-2">
+                        <i class="fas fa-circle text-success"></i> {{label_tahun.1}}
+                    </span>
+                    <span class="mr-2">
+                        <i class="fas fa-circle text-info"></i> {{label_tahun.2}}
+                    </span>
+                    <span class="mr-2">
+                        <i class="fas fa-circle text-warning"></i> {{label_tahun.3}}
+                    </span>
+                </div>
+                <div class="mt-4 text-center small">
+                    <span class="mr-5">
+                        Quarter 1 = Januari - Maret
+                    </span>
+                    <span class="mr-5">
+                        Quarter 2 = April - Juni
+                    </span>
+                    <span class="mr-5">
+                        Quarter 3 = Juli - September
+                    </span>
+                    <span class="mr-5">
+                        Quarter 4 = Oktober - December
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content-row-4 %}
+
+{% block content-row-5 %}
+
+{% endblock content-row-5 %}
+
+{% block content-row-6 %}
+
+{% endblock content-row-6 %}
+
+
+{% block script-chart %}
+<script>
+    Chart.defaults.global.defaultFontFamily = 'Nunito', '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
+    Chart.defaults.global.defaultFontColor = '#858796';
+
+    var config = {
+        type: 'bar',
+        data: {
+            labels: {{ label_quarter | safe }},
+    datasets: [
+        {
+            label: {{label_tahun.0}},
+            backgroundColor: "#4e73df",
+            hoverBackgroundColor: "#4e73df",
+            borderColor: "#4e73df",
+            data: {{ otif_2015 | safe }},
+            },
+        {
+            label: {{label_tahun.1}},
+            backgroundColor: "#33FF92",
+            hoverBackgroundColor: "#33FF92",
+            borderColor: "##1cc88a",
+            data: {{ otif_2016 | safe }},
+            },
+        {
+            label: {{label_tahun.2}},
+            backgroundColor: "#36b9cc",
+            hoverBackgroundColor: "#36b9cc",
+            borderColor: "#4e73df",
+            data: {{ otif_2017 | safe }},
+            },
+        {
+            label: {{label_tahun.3}},
+            backgroundColor: "#FFC300",
+            hoverBackgroundColor: "#FFC300",
+            borderColor: "#4e73df",
+            data: {{ otif_2018 | safe }},
+            },
+    ],
+        },
+    options: {
+        maintainAspectRatio: false,
+            layout: {
+            padding: {
+                left: 10,
+                    right: 25,
+                        top: 25,
+                            bottom: 0
+            }
+        },
+        scales: {
+            xAxes: [{
+                time: {
+                    unit: 'month'
+                },
+                gridLines: {
+                    display: false,
+                    drawBorder: false
+                },
+                ticks: {
+                    maxTicksLimit: 6
+                },
+                maxBarThickness: 25,
+            }],
+                yAxes: [{
+                    ticks: {
+                        min: 0,
+                        maxTicksLimit: 5,
+                        padding: 10,
+                        // Include a dollar sign in the ticks
+                        callback: function (value, index, values) {
+                            return value + '%';
+                        }
+                    },
+                    gridLines: {
+                        color: "rgb(234, 236, 244)",
+                        zeroLineColor: "rgb(234, 236, 244)",
+                        drawBorder: false,
+                        borderDash: [2],
+                        zeroLineBorderDash: [2]
+                    }
+                }],
+            },
+        legend: {
+            display: false
+        },
+        tooltips: {
+            titleMarginBottom: 10,
+                titleFontColor: '#6e707e',
+                    titleFontSize: 14,
+                        backgroundColor: "rgb(255,255,255)",
+                            bodyFontColor: "#858796",
+                                borderColor: '#dddfeb',
+                                    borderWidth: 1,
+                                        xPadding: 15,
+                                            yPadding: 15,
+                                                displayColors: false,
+                                                    caretPadding: 10,
+                                                        callbacks: {
+                label: function(tooltipItem, chart) {
+                    var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label || '';
+                    return datasetLabel + ': ' + tooltipItem.yLabel + '%';
+                }
+            }
+        },
+    }
+    };
+
+    var config2 = {
+        type: 'bar',
+        data: {
+            labels: {{ label_quarter | safe }},
+    datasets: [
+        {
+            label: {{label_tahun.0}},
+            backgroundColor: "#4e73df",
+            hoverBackgroundColor: "#4e73df",
+            borderColor: "#4e73df",
+            data: {{ ontime_2015 | safe }},
+            },
+        {
+            label: {{label_tahun.1}},
+            backgroundColor: "#33FF92",
+            hoverBackgroundColor: "#33FF92",
+            borderColor: "##1cc88a",
+            data: {{ ontime_2016 | safe }},
+            },
+        {
+            label: {{label_tahun.2}},
+            backgroundColor: "#36b9cc",
+            hoverBackgroundColor: "#36b9cc",
+            borderColor: "#4e73df",
+            data: {{ ontime_2017 | safe }},
+            },
+        {
+            label: {{label_tahun.3}},
+            backgroundColor: "#FFC300",
+            hoverBackgroundColor: "#FFC300",
+            borderColor: "#4e73df",
+            data: {{ ontime_2018 | safe }},
+            },
+    ],
+        },
+    options: {
+        maintainAspectRatio: false,
+            layout: {
+            padding: {
+                left: 10,
+                    right: 25,
+                        top: 25,
+                            bottom: 0
+            }
+        },
+        scales: {
+            xAxes: [{
+                time: {
+                    unit: 'month'
+                },
+                gridLines: {
+                    display: false,
+                    drawBorder: false
+                },
+                ticks: {
+                    maxTicksLimit: 6
+                },
+                maxBarThickness: 25,
+            }],
+                yAxes: [{
+                    ticks: {
+                        min: 0,
+                        maxTicksLimit: 5,
+                        padding: 10,
+                        // Include a dollar sign in the ticks
+                        callback: function (value, index, values) {
+                            return value;
+                        }
+                    },
+                    gridLines: {
+                        color: "rgb(234, 236, 244)",
+                        zeroLineColor: "rgb(234, 236, 244)",
+                        drawBorder: false,
+                        borderDash: [2],
+                        zeroLineBorderDash: [2]
+                    }
+                }],
+            },
+        legend: {
+            display: false
+        },
+        tooltips: {
+            titleMarginBottom: 10,
+                titleFontColor: '#6e707e',
+                    titleFontSize: 14,
+                        backgroundColor: "rgb(255,255,255)",
+                            bodyFontColor: "#858796",
+                                borderColor: '#dddfeb',
+                                    borderWidth: 1,
+                                        xPadding: 15,
+                                            yPadding: 15,
+                                                displayColors: false,
+                                                    caretPadding: 10,
+                                                        callbacks: {
+                label: function(tooltipItem, chart) {
+                    var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label || '';
+                    return datasetLabel + ': ' + tooltipItem.yLabel;
+                }
+            }
+        },
+    }
+    };
+
+    var config3 = {
+        type: 'bar',
+        data: {
+            labels: {{ label_quarter | safe }},
+    datasets: [
+        {
+            label: {{label_tahun.0}},
+            backgroundColor: "#4e73df",
+            hoverBackgroundColor: "#4e73df",
+            borderColor: "#4e73df",
+            data: {{ infull_2015 | safe }},
+            },
+        {
+            label: {{label_tahun.1}},
+            backgroundColor: "#33FF92",
+            hoverBackgroundColor: "#33FF92",
+            borderColor: "##1cc88a",
+            data: {{ infull_2016 | safe }},
+            },
+        {
+            label: {{label_tahun.2}},
+            backgroundColor: "#36b9cc",
+            hoverBackgroundColor: "#36b9cc",
+            borderColor: "#4e73df",
+            data: {{ infull_2017 | safe }},
+            },
+        {
+            label: {{label_tahun.3}},
+            backgroundColor: "#FFC300",
+            hoverBackgroundColor: "#FFC300",
+            borderColor: "#4e73df",
+            data: {{ infull_2018 | safe }},
+            },
+    ],
+        },
+    options: {
+        maintainAspectRatio: false,
+            layout: {
+            padding: {
+                left: 10,
+                    right: 25,
+                        top: 25,
+                            bottom: 0
+            }
+        },
+        scales: {
+            xAxes: [{
+                time: {
+                    unit: 'month'
+                },
+                gridLines: {
+                    display: false,
+                    drawBorder: false
+                },
+                ticks: {
+                    maxTicksLimit: 6
+                },
+                maxBarThickness: 25,
+            }],
+                yAxes: [{
+                    ticks: {
+                        min: 0,
+                        maxTicksLimit: 5,
+                        padding: 10,
+                        // Include a dollar sign in the ticks
+                        callback: function (value, index, values) {
+                            return value ;
+                        }
+                    },
+                    gridLines: {
+                        color: "rgb(234, 236, 244)",
+                        zeroLineColor: "rgb(234, 236, 244)",
+                        drawBorder: false,
+                        borderDash: [2],
+                        zeroLineBorderDash: [2]
+                    }
+                }],
+            },
+        legend: {
+            display: false
+        },
+        tooltips: {
+            titleMarginBottom: 10,
+                titleFontColor: '#6e707e',
+                    titleFontSize: 14,
+                        backgroundColor: "rgb(255,255,255)",
+                            bodyFontColor: "#858796",
+                                borderColor: '#dddfeb',
+                                    borderWidth: 1,
+                                        xPadding: 15,
+                                            yPadding: 15,
+                                                displayColors: false,
+                                                    caretPadding: 10,
+                                                        callbacks: {
+                label: function(tooltipItem, chart) {
+                    var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label || '';
+                    return datasetLabel + ': ' + tooltipItem.yLabel;
+                }
+            }
+        },
+    }
+    };
+
+    window.onload = function () {
+        var ctx = document.getElementById("myBarChart1");
+        window.myBar = new Chart(ctx, config);
+        var ctx2 = document.getElementById("myBarChart2");
+        window.myBar = new Chart(ctx2, config2);
+        var ctx3 = document.getElementById("myBarChart3");
+        window.myBar = new Chart(ctx3, config3);
+    };
+</script>
+{% endblock script-chart %}
