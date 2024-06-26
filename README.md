@@ -1,6 +1,4 @@
-# Data-Warehouse-for-Business-Intelligence-Dashboard-Using-PostgreSQL-Database
-
-## Dashboard Superstore Using Django and PostgreSQL Database
+# Dashboard Superstore Using Django and PostgreSQL Database
 
 Brief overview : 
 * Build a data warehouse system on Dataset Superstore using the Kimball life cycle method. 
